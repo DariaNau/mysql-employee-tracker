@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const table = require("console.table")
 
 const connection = mysql.createConnection({
-  host: "localhostDB",
+  host: "localhost",
 
   // Your port; if not 3306
   port: 3306,
@@ -11,14 +11,14 @@ const connection = mysql.createConnection({
   // Your username
   user: "root",
 
-  // Your password!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  password: "Finnycat1206!",
+
   database: "employees_db"
 });
 
 connection.connect(function(err) {
   if (err) throw err;
-  //Make sure we're calling our runSearch function ONLY AFTER our connection to the database was successfully establishe
+  //Making sure we're calling our runSearch function ONLY AFTER our connection to the database was successfully established
+  console.log("Sweeeet! You are connected as id " + connection.threadId + "\n");
   runSearch();
 });
 
