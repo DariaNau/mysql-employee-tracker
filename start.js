@@ -19,10 +19,10 @@ connection.connect(function(err) {
   if (err) throw err;
   //Making sure we're calling our runSearch function ONLY AFTER our connection to the database was successfully established
   console.log("Sweeeet! You are connected as id " + connection.threadId + "\n");
-  runSearch();
+  startApp();
 });
 
-function runSearch() {
+function startApp() {
   //Run an inquirer prompt to ask for the user's desired action
   inquirer
     .prompt({
@@ -30,35 +30,59 @@ function runSearch() {
       type: "rawlist",
       message: "What would you like to do?",
       choices: [
-        "Find songs by artist",
-        "Find all artists who appear more than once",
-        "Find data within a specific range",
-        "Search for a specific song",
-        "Find artists with a top song and top album in the same year"
+        "View employees",
+        "View departments",
+        "View roles",
+        "Add employees",
+        "Add departments",
+        "Add roles",
+        "Update employee roles",
+        "Remove an employee"
       ]
     })
-    // .then(answer => {
-    //   //Based on the selected action, call one of our functions to query the database
-    //   switch (answer.action) {
-    //     case "Find songs by artist":
-    //       artistSearch();
-    //       break;
+    .then(answer => {
+      //Based on the selected action, call one of our functions to query the database
+      switch (answer.action) {
+        case "View employees":
+          viewEmp();
+          break;
 
-    //     case "Find all artists who appear more than once":
-    //       multiSearch();
-    //       break;
+        case "View departments":
+          // viewDeps();
+          break;
 
-    //     case "Find data within a specific range":
-    //       rangeSearch();
-    //       break;
+        case "View roles":
+          // viewRoles();
+          break;
 
-    //     case "Search for a specific song":
-    //       songSearch();
-    //       break;
+        case "Add employees":
+          // addEmp();
+          break;
 
-    //     case "Find artists with a top song and top album in the same year":
-    //       songAndAlbumSearch();
-    //       break;
-    //   }
-    // });
+        case "Add departments":
+          // addDeps();
+          break;
+
+        case "Add roles":
+          // addRoles();
+          break;
+
+        case "Update employee roles":
+          // updateRoles();
+          break;
+          
+        case "Remove an employee":
+          // removeEmp();
+          break;
+      }
+    });
+}
+
+function viewEmp () {
+  console.log("Selecting all employees info...\n");
+  connection.query("SELECT * FROM employee", function(err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+  });
 }
