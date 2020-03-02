@@ -34,7 +34,7 @@ MySQL database contains three tables:
   * **role_id** - INT to hold reference to role employee has
   * **manager_id** - INT to hold reference to another employee that manager of the current employee. This field may be null if the employee has no manager
 
-### User Story
+## User Story
 
 As a business owner  
 I want to be able to view and manage the departments, roles, and employees in my company  
