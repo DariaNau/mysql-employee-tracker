@@ -117,6 +117,19 @@ function viewRoles() {
 
 function addEmp() {
   console.log("Please enter the following information: \n");
+  connection.query(`
+  SELECT 
+  role.id,
+  role.title, 
+  employee.first_name, 
+  employee.last_name,
+  employee.manager_id
+  FROM role
+  JOIN employee
+  ON role.id = employee.role_id`, function(err, res) {
+    if (err) throw err;
+    const resultedRows = res;
+    console.table(res);
   inquirer
     .prompt([{
       name: "name",
@@ -130,20 +143,25 @@ function addEmp() {
     },
     {
       name: "role",
-      type: "number",
-      message: "Enter employee's role id: "
+      type: "list",
+      message: "Please select employee's role: ",
+      choices:resultedRows.map(row => `${row.id} ${row.title}`)
     },
     {
       name: "manager",
-      type: "number",
-      message: "Enter employee's manager id: "
+      type: "list",
+      message: "Please select employee's manager: ",
+      choices:resultedRows.map(row => `${row.manager_id} ${row.first_name} ${row.last_name}`)
     }
     ])
     .then(answer => {
-      const employee = new Employee("", answer.name, answer.lastname, answer.role, answer.manager);
+      const roleId = answer.role[0];
+      const managerID = answer.manager[0];
+      const employee = new Employee("", answer.name, answer.lastname, roleId, managerID);
       db.insertEmployee(connection, employee);
       viewEmp();
-    })
+    });
+  });
 };
 
 function addDeps() { 
@@ -208,7 +226,6 @@ function addRoles() {
   });
 };
 
-
 function updateRoles() {
   //go ahead and query first, then we can run our propmt when we get results
   connection.query("SELECT * FROM employee", function (err, res) {
@@ -227,21 +244,22 @@ function updateRoles() {
         //do the same thing we did above: select all roles, then display a list of inquirer choices
         connection.query(`
         SELECT employee.id, employee.First_name, employee.last_name, employee.role_id, role.title 
-        FROM employee, role 
-        WHERE role.id = employee.role_id
-        AND employee.id = ${empId}
-        `, function (err, res) {
+        FROM employee, role`, 
+        function (err, res) {
           if (err) throw err;
+          const roleRow = res;
           console.table(res);
           inquirer.prompt({
               name: "role",
-              type: "input",
+              type: "list",
               message: "Please enter a new role id",
+              choices: roleRow.map(row => `${row.role_id} ${row.title}`)
             })
             .then(answer => {
+              const roleID = answer.role[0];
               connection.query("UPDATE employee SET ? WHERE ?",
                 [{
-                    role_id: answer.role
+                    role_id: roleID
                   },
                   {
                     id: empId

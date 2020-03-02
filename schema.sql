@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS employees_db;
+DROP DATABASE IF EXISTS employees_db;
 CREATE DATABASE employees_db;
 
 USE employees_db;
@@ -15,6 +15,7 @@ CREATE TABLE role (
   salary DECIMAL,
   department_id INT,
   PRIMARY KEY(id)
+  FOREIGN KEY (department_id) REFERENCES department (id)
 );
 
 CREATE TABLE employee (
