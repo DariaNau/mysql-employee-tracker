@@ -1,6 +1,6 @@
 # MySQL Employee Tracker
 
-This app created an interface that makes it easy for non-developers to view and interact with information stored in databases. Such interface is known as **C**ontent **M**anagement **S**ystems and is a solution for managing a company's employees using node, inquirer, and MySQL.
+This application is designed as an interface that makes it easy for non-developers to view and interact with information stored in databases. Such interface is known as **C**ontent **M**anagement **S**ystems and in this case is a solution for managing a company's employees using node, inquirer, and MySQL.
 
 ## Description
 
